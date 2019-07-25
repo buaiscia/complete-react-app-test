@@ -5,31 +5,40 @@ import Person from './Person/Person';
 class App extends Component {
   state = {
     persons: [
-      { name: 'Max', age: 28},
-      { name: 'Manu', age: 29},
-      { name: 'Babiu', age: 34}
+      { id: 'ddd', name: 'Max', age: 28},
+      { id: 'ccc', name: 'Manu', age: 29},
+      { id: 'aaa', name: 'Babiu', age: 34}
     ],
     showPersons: false
   }
 
-  switchNameHandler = (newName) => {
-      // this.state.persons[0] = 'Maximilian';  // DON'T DO THIS
-      this.setState({
-        persons: [
-          { name: newName, age: 28},
-          { name: 'Manu', age: 29},
-          { name: 'Babiu', age: 40}
-        ]
+  // switchNameHandler = (newName) => {
+  //     // this.state.persons[0] = 'Maximilian';  // DON'T DO THIS
+  //     this.setState({
+  //       persons: [
+  //         { name: newName, age: 28},
+  //         { name: 'Manu', age: 29},
+  //         { name: 'Babiu', age: 40}
+  //       ]
         
-      })
+  //     })
+  // }
+
+  deletePersonHandler = (personIndex) => {
+    // const persons = this.state.persons.slice();
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons});
   }
+
+
 
   nameChangeHandler = (event) => {
     this.setState({
       persons: [
-        { name: 'Max', age: 28},
-        { name: event.target.value, age: 29},
-        { name: 'Babiu', age: 40}
+        {  name: 'Max', age: 28},
+        {  name: event.target.value, age: 29},
+        {  name: 'Babiu', age: 40}
       ]
       
     })
@@ -55,8 +64,13 @@ class App extends Component {
     if(this.state.showPersons) {
       persons = (
           <div>
-            {this.state.persons.map(person => {
-              return <Person name={person.name} age={person.age}/>
+            {this.state.persons.map((person, personIndex) => {
+              return <Person 
+                        click={() => this.deletePersonHandler(personIndex)}
+                        name={person.name} 
+                        age={person.age}
+                        key={person.id}
+                        />
             })}
                 {/* <Person 
                   name={this.state.persons[0].name} 

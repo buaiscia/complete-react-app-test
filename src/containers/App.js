@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import classes from './App.module.css';
-import Person from './Person/Person';
+import Person from '../components/Persons/Person/Person';
 // import Radium, { StyleRoot } from 'radium';
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
+import Persons from '../components/Persons/Persons'
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
   state = {
@@ -69,7 +71,7 @@ class App extends Component {
 
   render() {
 
-    // const style = {
+    // const style = {                      ------>inline styling before css modules
     //   backgroundColor: 'green',
     //   color: 'white',
     //   font: 'inherit',
@@ -83,25 +85,27 @@ class App extends Component {
     // }
 
     let persons = null;
-    let btnClass = '';
+    // let btnClass = '';  --> gone into Cockpit component
 
     if(this.state.showPersons) {
-      persons = (
-          <div>
-            {this.state.persons.map((person, personIndex) => {
+      persons =  
+               <Persons persons={this.state.persons}
+                      clicked={this.deletePersonHandler}
+                      changed={this.nameChangeHandler} />
+            {/* {this.state.persons.map((person, personIndex) => {
               return 
               // <ErrorBoundary >
                 <Person 
-                        click={() => this.deletePersonHandler(personIndex)}
+                        click={() => this.deletePersonHandler(personIndex)}                               --> before refactoring, person component in here
                         name={person.name} 
                         age={person.age}
                         key={person.id}
                         changed={(event) => this.nameChangeHandler(event, person.id)}
                         /> 
                         // </ErrorBoundary>
-            })}
-                {/* <Person 
-                  name={this.state.persons[0].name} 
+            })} */}
+                {/* <Person                                             ---> first step of giving manually values
+                  name={this.state.persons[0].name}  
                   age={this.state.persons[0].age} />
                 <Person 
                   name={this.state.persons[1].name} 
@@ -111,34 +115,28 @@ class App extends Component {
                 <Person 
                   name={this.state.persons[2].name} 
                   age={this.state.persons[2].age} />       */}
-          </div> 
-      )
-        // style.backgroundColor = 'red';
+          
+      
+        // style.backgroundColor = 'red';           --: before using css modules, instyle here
         // style[':hover'] = {
         //   backgroundColor: 'salmon',
         //   color: 'black'
         // }
-        btnClass = classes.Red;
+        
+        // btnClass = classes.Red; --> gone into Cockpit component
       
     }
 
     // let classes = ['red', 'bold'].join(' ');
-    let assignedClasses  = [];
-    if(this.state.persons.length <= 2) {
-      assignedClasses.push(classes.red);
-    }
-    if(this.state.persons.length <=1 ) {
-      assignedClasses.push(classes.bold);
-    }
+   
 
     return (
-      // <StyleRoot>
+      // <StyleRoot>                    --> using Radium for styling
       <div className={classes.App}>
-        <h1>Hi, I'm a create app</h1>
-        <p className={assignedClasses.join(' ')}>This is really working</p>
-        <button 
-          className={btnClass}
-          onClick={this.togglePersonsHandler}>Toggle persons</button>
+        <Cockpit showPersons={this.state.showPersons}
+                  persons={this.state.persons}
+                  clicked={this.togglePersonsHandler}
+                    />
         
         {persons}
         

@@ -28,8 +28,20 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log('Component did mount')
+    console.log('Component did mount');
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('[Persons.js] shouldComponentUpdate' );
+    return true;  // return condition, if true  continue updating  otherwise not
+}
+
+  componentDidUpdate() {
+    console.log('[App.js] componentDidUpdate' );
+
+  }
+
+  
 
   // switchNameHandler = (newName) => {
   //     // this.state.persons[0] = 'Maximilian';  // DON'T DO THIS

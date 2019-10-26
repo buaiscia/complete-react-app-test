@@ -4,6 +4,33 @@ import Person from './Person/Person';
 // const persons = (props) => 
 
 class Persons extends Component {
+
+    // static getDerivedStateFromProps(props, state) { 
+    //     console.log('[Persons.js] getDerivedStateFromProps' );
+    //     return state;
+    // }
+
+
+    // componentWillReceiveProps(props) {
+    //     console.log('[Persons.js] componentWillReceiveProps', props );
+
+    // }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log('[Persons.js] shouldComponentUpdate' );
+        return true;  // return condition, if true  continue updating  otherwise not
+    }
+
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        console.log('[Persons.js] getSnapshotBeforeUpdate');
+        return {message: 'Snapshot!'};
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log('[Persons.js] componentDidUpdate');
+        console.log(snapshot)
+    }
+
     render() {
         console.log('[Persons.js] rendering...')
         return this.props.persons.map(( person, index) => {

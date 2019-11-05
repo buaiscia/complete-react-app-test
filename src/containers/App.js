@@ -19,7 +19,8 @@ class App extends Component {
       { id: 'ccc', name: 'Manu', age: 29},
       { id: 'aaa', name: 'Babiu', age: 34}
     ],
-    showPersons: false
+    showPersons: false,
+    showCockpit: true
   }
 
   static getDerivedStateFromProps( props, state) {
@@ -32,8 +33,9 @@ class App extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    console.log('[Persons.js] shouldComponentUpdate' );
-    return true;  // return condition, if true  continue updating  otherwise not
+    console.log('[App.js] shouldComponentUpdate' );
+    return true;
+     // return condition, if true  continue updating  otherwise not
 }
 
   componentDidUpdate() {
@@ -161,12 +163,16 @@ class App extends Component {
     return (
       // <StyleRoot>                    --> using Radium for styling
       <div className={classes.App}>
-        <Cockpit 
+      <button 
+        onClick={()=>{
+          this.setState({showCockpit: false}
+          )}}>Remove cockpit</button>
+        {this.state.showCockpit ? (<Cockpit 
                   title={this.props.appTitle}
                   showPersons={this.state.showPersons}
-                  persons={this.state.persons}
-                  clicked={this.togglePersonsHandler}
-                    />
+                  personsLength={this.state.persons.length}
+                  clicked={this.togglePersonsHandler} />
+           )   : null}
         
         {persons}
         

@@ -1,9 +1,28 @@
 import React, {useEffect} from 'react';
 import classes from './Cockpit.module.css'
 
-const Cockpit = (props) => {
+const Cockpit = props => {
 
-    useEffect(() => console.log('[cockpit.js] useEffect'))
+    useEffect(() => {
+        console.log('[cockpit.js] useEffect');
+
+        // const timer = 
+        setTimeout(() => {
+            alert('Saved data')
+        }, 1000);
+        return () => {
+            // clearTimeout(timer);
+            console.log('[cockpit.js] cleanup of useeffect')
+        }
+    
+    }, [] ); // [props.persons] adding props so that component expects to be called when the props changed / if emptu array [] tells React to run it only on first time as no dependencies / if no argument it updates every cycle/render  
+ 
+    useEffect(() => {
+        console.log('[cockpit.js] 2nd useEffect');
+        return () => {
+            console.log('[cockpit.js] cleanup of 2nd usEffect')
+        }
+    })
 
     const assignedClasses  = [];
     let btnClass = '';
@@ -12,10 +31,10 @@ const Cockpit = (props) => {
     }
 
 
-    if(props.persons.length <= 2) {
+    if(props.personsLength <= 2) {
       assignedClasses.push(classes.red);
     }
-    if(props.persons.length <=1 ) {
+    if(props.personsLength <=1 ) {
       assignedClasses.push(classes.bold);
     }
 
@@ -32,4 +51,4 @@ const Cockpit = (props) => {
     );
 }
 
-export default Cockpit;
+export default React.memo(Cockpit);

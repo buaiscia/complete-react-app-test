@@ -16,19 +16,22 @@ class Person extends Component {
         this.inputElRef = React.createRef();
     }
 
+    static contextType = AuthContext;
+
 
     componentDidMount() {
         // this.inputEl.focus();  // as mount after rendering it focus on the last loaded element
         this.inputElRef.current.focus();
+        console.log(this.context.authenticated);
     }
 
     render() {
         console.log('[Person.js] rendering...')
         return (
             <Auxiliary>
-                <AuthContext.Consumer>
-                    {(context) => context.authenticated ? <p>Authenticated!</p> : <p>please log in</p> }
-                </AuthContext.Consumer>
+                {/* <AuthContext.Consumer> */}
+                    {this.context.authenticated ? <p>Authenticated!</p> : <p>please log in</p> }
+                {/* </AuthContext.Consumer> */}
 
                 <p key="i1" onClick={this.props.click}>I'm {this.props.name} and I'm {this.props.age} years old</p>
                 <p key="i2">{this.props.children}</p>   

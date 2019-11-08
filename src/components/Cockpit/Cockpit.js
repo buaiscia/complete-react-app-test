@@ -49,7 +49,12 @@ const Cockpit = props => {
             <button 
                 ref={toggleBtnRef}
                 className={btnClass}
-                onClick={props.clicked}>Toggle persons</button>
+                onClick={props.clicked}>Toggle persons
+            </button>
+            <button
+                onClick={props.login}>
+                Login
+            </button>
         </div>
         
 

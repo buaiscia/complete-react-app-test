@@ -4,6 +4,7 @@ import classes from './Person.module.css'
 // import Radium from 'radium';
 import Auxiliary from '../../../hoc/Auxiliary';
 import PropTypes from 'prop-types';
+import AuthContext from '../../../context/auth-context'
 
 
 // const person = (props) => {
@@ -25,7 +26,10 @@ class Person extends Component {
         console.log('[Person.js] rendering...')
         return (
             <Auxiliary>
-                {this.props.isAuth ? <p>Authenticated!</p> : <p>please log in</p>} 
+                <AuthContext.Consumer>
+                    {(context) => context.authenticated ? <p>Authenticated!</p> : <p>please log in</p> }
+                </AuthContext.Consumer>
+
                 <p key="i1" onClick={this.props.click}>I'm {this.props.name} and I'm {this.props.age} years old</p>
                 <p key="i2">{this.props.children}</p>   
                 {/* props.children is all that inside opening and closing tag of component              */}

@@ -6,7 +6,8 @@ import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit';
 
-import WithClass from '../hoc/WithClass';
+import withClass from '../hoc/withClass';
+import Auxiliar from '../hoc/Auxiliary'
 
 class App extends Component {
 
@@ -22,7 +23,8 @@ class App extends Component {
       { id: 'aaa', name: 'Babiu', age: 34}
     ],
     showPersons: false,
-    showCockpit: true
+    showCockpit: true,
+    changeCounter: 0
   }
 
   static getDerivedStateFromProps( props, state) {
@@ -83,7 +85,13 @@ class App extends Component {
     const persons =  [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState( {persons: persons} )
+    this.setState((prevState, props) => {
+      return {
+        persons: persons,
+        changeCounter: prevState.changeCounter + 1  //can't access state directly because it won't be sure if state is accurate, with the function and prevState sure it's the previous state to be modified
+      }
+    
+    })
 
     // this.setState({
     //   persons: [
@@ -164,21 +172,21 @@ class App extends Component {
 
     return (
       // <StyleRoot>                    --> using Radium for styling
-      <WithClass classes={classes.App}>
-      <button 
-        onClick={()=>{
-          this.setState({showCockpit: false}
-          )}}>Remove cockpit</button>
-        {this.state.showCockpit ? (<Cockpit 
-                  title={this.props.appTitle}
-                  showPersons={this.state.showPersons}
-                  personsLength={this.state.persons.length}
-                  clicked={this.togglePersonsHandler} />
-           )   : null}
-        
-        {persons}
-        
-      </WithClass>
+      <Auxiliar>
+        <button 
+          onClick={()=>{
+            this.setState({showCockpit: false}
+            )}}>Remove cockpit</button>
+          {this.state.showCockpit ? (<Cockpit 
+                    title={this.props.appTitle}
+                    showPersons={this.state.showPersons}
+                    personsLength={this.state.persons.length}
+                    clicked={this.togglePersonsHandler} />
+            )   : null}
+          
+          {persons}
+          
+      </Auxiliar>
       // </StyleRoot>
 
     );
@@ -186,4 +194,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withClass(App, classes.App);
